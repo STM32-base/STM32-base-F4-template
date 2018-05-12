@@ -5,6 +5,9 @@
  * Initialize the HSI clock source and reset the PLL configuration. This
  * function is called by the startup_common.s file, just before calling the
  * main() function.
+ *
+ * You can adapt this function to fit your needs, however, do not change its
+ * name! It is called in the startup code.
  */
 void SystemInit (void) {
   // FPU settings

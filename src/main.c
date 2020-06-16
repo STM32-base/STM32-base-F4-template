@@ -7,8 +7,12 @@ static void delay (unsigned int time) {
 }
 
 int main (void) {
-    // Turn on the GPIOC peripheral
+    // Turn on the GPIOx peripheral
+#if defined(STM32F446xx)
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+#else
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
+#endif
 
     // Put pin 13 in general purpose output mode
     // Note: The only difference here is the name of the register in the
@@ -16,6 +20,8 @@ int main (void) {
 #if defined(STM32F413xx) || \
     defined(STM32F423xx)
     GPIOC->MODER |= GPIO_MODER_MODE13_0;
+#elif defined(STM32F446xx)
+    GPIOA->MODER |= GPIO_MODER_MODE5_0;
 #else
     GPIOC->MODER |= GPIO_MODER_MODER13_0;
 #endif
@@ -25,6 +31,8 @@ int main (void) {
 #if defined(STM32F413xx) || \
     defined(STM32F423xx)
         GPIOC->BSRR = GPIO_BSRR_BR_13;
+#elif defined(STM32F446xx)
+    	GPIOA->BSRR = GPIO_BSRR_BR_5;
 #else
         GPIOC->BSRR = GPIO_BSRR_BR13;
 #endif
@@ -35,6 +43,8 @@ int main (void) {
 #if defined(STM32F413xx) || \
     defined(STM32F423xx)
         GPIOC->BSRR = GPIO_BSRR_BS_13;
+#elif defined(STM32F446xx)
+	GPIOA->BSRR = GPIO_BSRR_BS_5;
 #else
         GPIOC->BSRR = GPIO_BSRR_BS13;
 #endif
@@ -45,3 +55,4 @@ int main (void) {
     // Return 0 to satisfy compiler
     return 0;
 }
+
